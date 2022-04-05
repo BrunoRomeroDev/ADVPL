@@ -1,0 +1,23 @@
+/*******************
+GPEDC001
+Gatilho no campo C7_PRODUTO
+Bruno Romero 
+25/11/2018
+*******************/
+#INCLUDE "RWMAKE.CH"
+#INCLUDE "AP5MAIL.CH"
+#INCLUDE "topconn.ch"
+#INCLUDE "PROTHEUS.CH"
+#INCLUDE "TBICONN.CH"
+USER FUNCTION GPEDC001()       
+LOCAL aArea   := GetArea()
+LOCAL cDesPopup := ""
+
+SB1->(DBSETORDER(1))
+SB1->(DBSEEK(XFILIAL("SB1")+M->C7_PRODUTO))
+cDesPro := SB1->B1_DESC
+IF SB1->B1_SITPROD = "DE"
+  MSGALERT("DESCONTINUADO")
+ENDIF
+
+RETURN(cDesPro)
