@@ -7,6 +7,7 @@ Função para ver os grupos de produto
 @since 03/02/2022
 @version 1.0
 @type function
+!!!!!Necessário criar as perguntas via configurador!!!!!
 /*---------------------*/
  
 User Function fAtuSB1()
