@@ -1,0 +1,33 @@
+#INCLUDE 'RWMAKE.CH'
+#INCLUDE 'PROTHEUS.CH'
+
+USER FUNCTION M440STTS()
+	LOCAL aArea   		:= GETAREA()
+	PRIVATE _CNOMEPROG	:= FUNNAME() 
+
+	IF ALLTRIM(_CNOMEPROG) == 'MATA440' 
+
+	IF INCLUI = .T. .OR. ALTERA = .T.   
+			cQuery := "SELECT COUNT(C9_ITEM)AS QTD FROM "+RetSqlName("SC9")+" C9 "
+			cQuery += "WHERE C9.C9_FILIAL = '"+XFILIAL("SC9")+"' AND C9.C9_PEDIDO = '"+SC5->C5_NUM+"' AND  C9.D_E_L_E_T_ <> '*'  "   
+			DbUseArea(.T., "TOPCONN", TCGenQry(,,cQuery), 'TSC9', .F., .T.) 
+				
+				IF TSC9->QTD > 0 .AND. EMPTY(SC5->C5_LIBEROK) = .T.
+					RECLOCK("SC5",.F.)
+					SC5->C5_XPARCIA = "P"
+					MSUNLOCK()
+				ELSE
+					RECLOCK("SC5",.F.)	
+					SC5->C5_XPARCIA = ""
+					MSUNLOCK()
+				ENDIF
+
+			TSC9->(DBCLOSEAREA())
+
+		ENDIF
+
+	ENDIF
+
+RESTAREA(aArea)
+
+RETURN
